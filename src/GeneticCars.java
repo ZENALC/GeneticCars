@@ -59,7 +59,7 @@ public class GeneticCars implements MouseListener
 
 		generateInitialPopulation(KILLTOPOPULATION);
 		doGenetic(GENERATIONS);
-		bubble_sort();  // to not embarrass myself, only show a car that works on track
+//		bubble_sort();  // to not embarrass myself, only show a car that works on track
 		show(population.get(0));
 	}
 
@@ -79,7 +79,7 @@ public class GeneticCars implements MouseListener
 			mutate();
 //			System.out.println("After mutating: " + population.size());
 			System.out.println("Generation "+(g+1)+": best car has distance "+population.get(0).score_position +
-					"/500, Iterations "+population.get(0).score_iterations+"/2000, "+"Track " + previousWorld);
+					"/500, Iterations "+population.get(0).score_iterations+"/2000, Track " + previousWorld);
 //			if (population.get(0).score_position == 500) {System.out.println("We made it out!"); break;}
 		}
 	}
@@ -271,7 +271,6 @@ public class GeneticCars implements MouseListener
 	public void show(Car car)
 	{
 		World w= makeRaceCourse(previousWorld);
-		System.out.println(car.getPosition());
 		car.constructCar(w);
 		show(w);
 	}

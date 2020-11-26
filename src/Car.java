@@ -84,10 +84,13 @@ public class Car
 		{
 			world.makeBall(balls_x[i],balls_y[i]);
 		}
-		for(int i=0; i<nodes; i++)
-			for(int j=0; j<nodes; j++)
-				if(linkmatrix[i][j])
+		for(int i=0; i<nodes; i++) {
+			for(int j=0; j<nodes; j++) {
+				if(linkmatrix[i][j]) {
 					world.makeLink(i,j);
+				}
+			}
+		}
 	}
 
 	//returns a random integer between [a,b]
