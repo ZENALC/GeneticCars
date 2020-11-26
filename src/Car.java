@@ -58,7 +58,7 @@ public class Car
 	//this is called only after the car has been raced
 	public double getPosition()
 	{
-		int sum=0;
+		float sum=0;
 		for(int i=0; i<nodes; i++)
 			sum+=world.getBall(i).position.x;
 		return sum / nodes;

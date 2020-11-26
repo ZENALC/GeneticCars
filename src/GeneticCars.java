@@ -46,6 +46,7 @@ public class GeneticCars implements MouseListener
 
 	//This arraylist holds the population of cars
 	public ArrayList<Car> population;
+	private int previousWorld = 0;
 
 	//Program starts here:
 	// creates an initial population
@@ -58,7 +59,7 @@ public class GeneticCars implements MouseListener
 
 		generateInitialPopulation(KILLTOPOPULATION);
 		doGenetic(GENERATIONS);
-
+		bubble_sort();  // to not embarrass myself, only show a car that works on track
 		show(population.get(0));
 	}
 
@@ -77,8 +78,24 @@ public class GeneticCars implements MouseListener
 //			System.out.println("After killing: " + population.size());
 			mutate();
 //			System.out.println("After mutating: " + population.size());
-			System.out.println("Generation "+(g+1)+": best car has distance "+population.get(0).score_position+"/500, Iterations "+population.get(0).score_iterations+"/2000");
+			System.out.println("Generation "+(g+1)+": best car has distance "+population.get(0).score_position +
+					"/500, Iterations "+population.get(0).score_iterations+"/2000, "+"Track " + previousWorld);
+//			if (population.get(0).score_position == 500) {System.out.println("We made it out!"); break;}
 		}
+	}
+
+	public void bubble_sort() {
+		// I only care about the best of the best
+		Car bestCar = population.get(0);
+		int swapIndex = 0;
+		for (int x = 1; x < population.size(); ++x) {
+			if (compare(bestCar, population.get(x))) {
+				swapIndex = x;
+				bestCar = population.get(x);
+			}
+		}
+		population.set(swapIndex, population.get(0));
+		population.set(0, bestCar);
 	}
 
 
@@ -170,33 +187,64 @@ public class GeneticCars implements MouseListener
 
 	//make a World object containing a racetrack of walls
 	// if you do the optional step, you should make several of these and return one of them at random
-	public World makeRaceCourse(int worldAmount)
+	public World makeRaceCourse()
 	{
-		World[] worlds = new World[worldAmount];
-		World world;
-		for (int w = 0; w < worldAmount; ++w) {
-			world=new World();
-			world.WIDTH=500;
-			world.HEIGHT=500;
-			world.makeWall(1,500,499,500);
-			world.makeWall(-20,132,123,285);
-			world.makeWall(104,285,203,277);
-			world.makeWall(202,275,271,344);
-			world.makeWall(271,344,320,344);
-			world.makeWall(321,345,354,318);
-			world.makeWall(354,318,394,324);
-			world.makeWall(394,324,429,390);
-			world.makeWall(429,391,498,401);
-			worlds[w] = world;
-		}
-		return worlds[(int) (Math.random() * worldAmount)];
+		World[] worlds = getRaceCourses();
+		previousWorld = (int) (Math.random() * (worlds.length - 1));
+		return worlds[previousWorld];
+	}
+
+	public World makeRaceCourse(int index)
+	{
+		World[] worlds = getRaceCourses();
+		return worlds[index];
+	}
+
+	public World[] getRaceCourses() {
+		World[] worlds = new World[4];
+
+		worlds[0] = new World();
+		worlds[0].WIDTH=500;
+		worlds[0].HEIGHT=500;
+		worlds[0].makeWall(1,500,499,500);
+		worlds[0].makeWall(-20,132,123,285);
+		worlds[0].makeWall(104,285,203,277);
+		worlds[0].makeWall(202,275,271,344);
+		worlds[0].makeWall(271,344,320,344);
+		worlds[0].makeWall(321,345,354,318);
+		worlds[0].makeWall(354,318,394,324);
+		worlds[0].makeWall(394,324,429,390);
+		worlds[0].makeWall(429,391,498,401);
+
+		worlds[1]=new World();
+		worlds[1].WIDTH=500;
+		worlds[1].HEIGHT=500;
+		worlds[1].makeWall(1,82, 499,362);
+		worlds[1].makeWall(498,363, 506,412);
+		worlds[1].makeWall(508,412, 983,647);
+
+		worlds[2]=new World();
+		worlds[2].WIDTH=500;
+		worlds[2].HEIGHT=500;
+		worlds[2].makeWall(1,64, 284,313);
+		worlds[2].makeWall(284,313, 428,293);
+		worlds[2].makeWall(426,291, 744,504);
+		worlds[2].makeWall(745,505, 837,477);
+		worlds[2].makeWall(836,476, 986,566);
+
+		worlds[3]=new World();
+		worlds[3].WIDTH=500;
+		worlds[3].HEIGHT=500;
+		worlds[3].makeWall(2,0, 978,647);
+
+		return worlds;
 	}
 
 	//take an individual car, make a racetrack for it and simulate it
 		//at the end of the function the car will have a score
 	public void race(Car car)
 	{
-		World w=makeRaceCourse(5);
+		World w=makeRaceCourse();
 		car.constructCar(w);
 		int i;
 		for(i=0; i<ITERATIONS; i++)
@@ -213,7 +261,7 @@ public class GeneticCars implements MouseListener
 	{
 		for(Car car: population)
 		{
-			World w=makeRaceCourse(5);
+			World w=makeRaceCourse();
 			car.constructCar(w);
 			show(w);
 		}
@@ -222,7 +270,8 @@ public class GeneticCars implements MouseListener
 	//show a single car racing
 	public void show(Car car)
 	{
-		World w=makeRaceCourse(5);
+		World w= makeRaceCourse(previousWorld);
+		System.out.println(car.getPosition());
 		car.constructCar(w);
 		show(w);
 	}

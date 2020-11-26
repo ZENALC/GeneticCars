@@ -1,0 +1,6 @@
+~ My thoughts on the genetic algorithms.
+
+I think the algorithm is great. However, it seems that there is some parameter wrong. Even if one generation has
+the best car possible, the next one has a potential of having a worse one.
+
+I got all of the problems to work besides the one to make it look like cars!
