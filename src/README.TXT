@@ -1,4 +1,4 @@
-# This is for an AI project at Bridgewater State University.
+This is for an AI project at Bridgewater State University
 
 Your work in this project will go exclusively in classes GeneticCars.java and Car.java.  You do not need to modify any other file, or make any additional classes.
 
