@@ -17,7 +17,6 @@
 	YOU SHOULD WRITE, AT A MINIMUM, FUNCTIONS BREED() KILL() and MUTATE().  Find the TODO lines.
 */
 
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.*;
@@ -55,7 +54,7 @@ public class GeneticCars implements MouseListener
 
 	public GeneticCars()
 	{
-		population=new ArrayList<Car>();
+		population=new ArrayList<>();
 
 		generateInitialPopulation(KILLTOPOPULATION);
 		doGenetic(GENERATIONS);
@@ -171,30 +170,35 @@ public class GeneticCars implements MouseListener
 
 	//make a World object containing a racetrack of walls
 	// if you do the optional step, you should make several of these and return one of them at random
-	public World makeRaceCourse()
+	public World makeRaceCourse(int worldAmount)
 	{
-		World world=new World();
-		world.WIDTH=500;
-		world.HEIGHT=500;
-		world.makeWall(1,500,499,500);
-		world.makeWall(-20,132,123,285);
-		world.makeWall(104,285,203,277);
-		world.makeWall(202,275,271,344);
-		world.makeWall(271,344,320,344);
-		world.makeWall(321,345,354,318);
-		world.makeWall(354,318,394,324);
-		world.makeWall(394,324,429,390);
-		world.makeWall(429,391,498,401);
-		return world;
+		World[] worlds = new World[worldAmount];
+		World world;
+		for (int w = 0; w < worldAmount; ++w) {
+			world=new World();
+			world.WIDTH=500;
+			world.HEIGHT=500;
+			world.makeWall(1,500,499,500);
+			world.makeWall(-20,132,123,285);
+			world.makeWall(104,285,203,277);
+			world.makeWall(202,275,271,344);
+			world.makeWall(271,344,320,344);
+			world.makeWall(321,345,354,318);
+			world.makeWall(354,318,394,324);
+			world.makeWall(394,324,429,390);
+			world.makeWall(429,391,498,401);
+			worlds[w] = world;
+		}
+		return worlds[(int) (Math.random() * worldAmount)];
 	}
 
 	//take an individual car, make a racetrack for it and simulate it
 		//at the end of the function the car will have a score
 	public void race(Car car)
 	{
-		World w=makeRaceCourse();
+		World w=makeRaceCourse(5);
 		car.constructCar(w);
-		int i=0;
+		int i;
 		for(i=0; i<ITERATIONS; i++)
 		{
 			w.doFrame();
@@ -209,7 +213,7 @@ public class GeneticCars implements MouseListener
 	{
 		for(Car car: population)
 		{
-			World w=makeRaceCourse();
+			World w=makeRaceCourse(5);
 			car.constructCar(w);
 			show(w);
 		}
@@ -218,7 +222,7 @@ public class GeneticCars implements MouseListener
 	//show a single car racing
 	public void show(Car car)
 	{
-		World w=makeRaceCourse();
+		World w=makeRaceCourse(5);
 		car.constructCar(w);
 		show(w);
 	}
@@ -238,7 +242,7 @@ public class GeneticCars implements MouseListener
 		for(int i=0; i<ITERATIONS; i++)
 		{
 			world.doFrame();
-			try{ Thread.sleep((int)(world.DT*1000/30)); } catch(InterruptedException e){};
+			try{ Thread.sleep((int)(world.DT*1000/30)); } catch(InterruptedException ignored){}
 		}
 	}
 
