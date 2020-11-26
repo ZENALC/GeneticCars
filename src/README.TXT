@@ -9,3 +9,5 @@ To run this program, use main class GeneticCars
 
 To test the physics simulator, use the main class Interactive
 	java Interactive
+
+This is for an AI project at Bridgewater State University.
