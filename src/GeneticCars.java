@@ -80,7 +80,7 @@ public class GeneticCars implements MouseListener
 //			System.out.println("After mutating: " + population.size());
 			System.out.println("Generation "+(g+1)+": best car has distance "+population.get(0).score_position +
 					"/500, Iterations "+population.get(0).score_iterations+"/2000, Track " + previousWorld);
-//			if (population.get(0).score_position == 500) {System.out.println("We made it out!"); break;}
+			if (population.get(0).score_position == 500) {System.out.println("We made it out!"); break;}
 		}
 	}
 
@@ -157,12 +157,13 @@ public class GeneticCars implements MouseListener
 		ArrayList<Car> keep = new ArrayList<>();
 
 		for (int a = 0; a < KILLTOPOPULATION; ++a) {
-			Car bestCar = population.get(0);
-			for (int b = 1; b < population.size(); ++b) {
+			Car bestCar = population.get(a);
+			for (int b = a + 1; b < population.size(); ++b) {
 				if (compare(bestCar, population.get(b))) {
 					bestCar = population.get(b);
 				}
 			}
+			population.remove(bestCar);
 			keep.add(bestCar);
 		}
 		population = keep;
@@ -244,7 +245,7 @@ public class GeneticCars implements MouseListener
 		//at the end of the function the car will have a score
 	public void race(Car car)
 	{
-		World w=makeRaceCourse();
+		World w=makeRaceCourse(0);
 		car.constructCar(w);
 		int i;
 		for(i=0; i<ITERATIONS; i++)
