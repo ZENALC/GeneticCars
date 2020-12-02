@@ -132,9 +132,9 @@ public class Car
 		for (int i = 0; i < nodes; ++i) {
 			for (int j = 0; j < nodes; ++j) {
 				if (randomint(1, 3) == 3) {
-					linkmatrix[i][j] = first.linkmatrix[i][j];
+					child.linkmatrix[i][j] = first.linkmatrix[i][j];
 				} else {
-					linkmatrix[i][j] = second.linkmatrix[i][j];
+					child.linkmatrix[i][j] = second.linkmatrix[i][j];
 				}
 			}
 		}
